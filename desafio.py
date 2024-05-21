@@ -165,7 +165,6 @@ class Saque(Transacao):
     def valor(self):
         return self._valor
 
-    @log
     def registrar(self, conta):
         sucesso_transacao = conta.sacar(self.valor)
 
@@ -181,7 +180,6 @@ class Deposito(Transacao):
     def valor(self):
         return self._valor
 
-    @log
     def registrar(self, conta):
         sucesso_transacao = conta.depositar(self.valor)
 
@@ -218,6 +216,7 @@ def recuperar_conta_cliente(cliente):
     return cliente.contas[0]
 
 
+@log
 def depositar(clientes):
     cpf = input("Informe o CPF do cliente: ")
     cliente = filtrar_cliente(cpf, clientes)
@@ -236,6 +235,7 @@ def depositar(clientes):
     cliente.realizar_transacao(conta, transacao)
 
 
+@log
 def sacar(clientes):
     cpf = input("Informe o CPF do cliente: ")
     cliente = filtrar_cliente(cpf, clientes)
@@ -281,6 +281,7 @@ def exibir_extrato(clientes):
     print("==========================================")
 
 
+@log
 def criar_cliente(clientes):
     cpf = input("Informe o CPF (somente número): ")
     cliente = filtrar_cliente(cpf, clientes)
@@ -302,6 +303,7 @@ def criar_cliente(clientes):
     print("\n=== Cliente criado com sucesso! ===")
 
 
+@log
 def criar_conta(numero_conta, clientes, contas):
     cpf = input("Informe o CPF do cliente: ")
     cliente = filtrar_cliente(cpf, clientes)
