@@ -1,6 +1,16 @@
+import functools
 import textwrap
-from abc import ABC, abstractclassmethod, abstractproperty
+from abc import ABC,  abstractmethod
 from datetime import datetime
+
+
+def log(funcao):
+    @functools.wraps(funcao)
+    def envelope(*args, **kwargs):
+        funcao(*args, **kwargs)
+        print(f"{funcao.__name__} realizado em {datetime.now()}")
+
+    return envelope
 
 
 class Cliente:
@@ -136,12 +146,13 @@ class Historico:
 
 
 class Transacao(ABC):
-    @property
-    @abstractproperty
+    @classmethod
+    @abstractmethod
     def valor(self):
         pass
 
-    @abstractclassmethod
+    @classmethod
+    @abstractmethod
     def registrar(self, conta):
         pass
 
@@ -154,6 +165,7 @@ class Saque(Transacao):
     def valor(self):
         return self._valor
 
+    @log
     def registrar(self, conta):
         sucesso_transacao = conta.sacar(self.valor)
 
@@ -169,6 +181,7 @@ class Deposito(Transacao):
     def valor(self):
         return self._valor
 
+    @log
     def registrar(self, conta):
         sucesso_transacao = conta.depositar(self.valor)
 
