@@ -196,6 +196,21 @@ class Deposito(Transacao):
             conta.historico.adicionar_transacao(self)
 
 
+class ContaIterador:
+    def __init__(self, contas):
+        self.contas = contas
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        for conta in self.contas:
+            print("=" * 100)
+            print(textwrap.dedent(str(conta)))
+
+        raise StopIteration
+
+
 def menu():
     menu = """\n
     ================ MENU ================
@@ -323,9 +338,8 @@ def criar_conta(numero_conta, clientes, contas):
 
 
 def listar_contas(contas):
-    for conta in contas:
-        print("=" * 100)
-        print(textwrap.dedent(str(conta)))
+    for conta in ContaIterador(contas):
+        print(conta)
 
 
 def main():
